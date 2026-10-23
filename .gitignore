@@ -1,0 +1,24 @@
+# Local/private data are never source artifacts.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.sqlite3*
+*.db*
+*.log
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+dist/
+runtime/
+memory/
+corpus/
+data/
+state/current*.json
+state/schedule.json
+state/*.local.json
+*.bak
+.DS_Store
+Thumbs.db

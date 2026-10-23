@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "provider": "mock",
+  "allow_network": false,
+  "endpoint": "",
+  "model": "",
+  "api_key_env": "DEEPSEEK_API_KEY",
+  "temperature": 0.7,
+  "max_tokens": 160,
+  "timeout": 60
+}

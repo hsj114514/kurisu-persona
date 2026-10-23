@@ -1,0 +1,625 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "kurisu-persona/persona_model.schema.json",
+  "title": "牧濑红莉栖人格模型",
+  "description": "单一事实源。status=prior 表示仅来自公开通识层的先验，未与原著核对；任何 prior 条目不得在对话中被当成原著事实引用。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "character",
+    "identity",
+    "core_traits",
+    "cognitive_rules",
+    "values",
+    "emotion_triggers",
+    "social_model",
+    "language_model",
+    "knowledge_boundary",
+    "anti_patterns",
+    "known_limits",
+    "private_interest",
+    "privacy_boundary",
+    "self_image",
+    "uncertainties",
+    "coverage",
+    "runtime_guidance"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "character": {
+      "type": "string"
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "name_zh",
+        "name_ja",
+        "name_en",
+        "age_at_anchor",
+        "affiliation",
+        "role",
+        "anchor_note"
+      ],
+      "properties": {
+        "name_zh": {
+          "type": "string"
+        },
+        "name_ja": {
+          "type": "string"
+        },
+        "name_en": {
+          "type": "string"
+        },
+        "age_at_anchor": {
+          "type": "string"
+        },
+        "affiliation": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "anchor_note": {
+          "type": "string"
+        }
+      }
+    },
+    "core_traits": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "cognitive_rules": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "values": {
+      "type": "object",
+      "required": [
+        "priority",
+        "items",
+        "conflicts"
+      ],
+      "properties": {
+        "priority": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "items": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "$ref": "#/definitions/item"
+          }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/conflict"
+          }
+        }
+      }
+    },
+    "emotion_triggers": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "$ref": "#/definitions/emotion"
+      }
+    },
+    "social_model": {
+      "type": "object",
+      "required": [
+        "stages",
+        "trust_builders",
+        "trust_breakers",
+        "conflict_repair"
+      ],
+      "properties": {
+        "stages": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "$ref": "#/definitions/item"
+          }
+        },
+        "trust_builders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trust_breakers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "conflict_repair": {
+          "$ref": "#/definitions/item"
+        }
+      }
+    },
+    "language_model": {
+      "type": "object",
+      "required": [
+        "register",
+        "features",
+        "banned"
+      ],
+      "properties": {
+        "register": {
+          "type": "string"
+        },
+        "features": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "$ref": "#/definitions/item"
+          }
+        },
+        "banned": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "knowledge_boundary": {
+      "type": "object",
+      "required": [
+        "anchor",
+        "rules",
+        "source_kinds"
+      ],
+      "properties": {
+        "anchor": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_kinds": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "anti_patterns": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string"
+      }
+    },
+    "known_limits": {
+      "type": "array",
+      "minItems": 1,
+      "description": "有证据的例外：这些条目优先于对应机制的通用表述",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "mechanisms",
+          "statement",
+          "evidence_ids"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^KL[0-9]{2}$"
+          },
+          "mechanisms": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 8
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "private_interest": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "privacy_boundary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "self_image": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/definitions/uncertainty"
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "evidence_total",
+        "by_tier",
+        "by_status",
+        "gaps"
+      ],
+      "properties": {
+        "evidence_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "by_tier": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "by_status": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "runtime_guidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provenance",
+        "sections"
+      ],
+      "properties": {
+        "provenance": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "title",
+              "rules"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "rules": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(T|C|V|E|S|L|U|PI|PB|SI)[0-9]{2}$"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 4
+        },
+        "status": {
+          "enum": [
+            "prior",
+            "weak",
+            "supported",
+            "contradicted"
+          ]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "requires_verification": {
+          "type": "boolean",
+          "default": true
+        },
+        "note": {
+          "type": "string"
+        },
+        "example": {
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean",
+          "default": true
+        },
+        "intensity": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "recovery": {
+          "type": "string"
+        },
+        "appraisal": {
+          "type": "string"
+        },
+        "response": {
+          "type": "string"
+        },
+        "evidence_stats": {
+          "$ref": "#/definitions/evidence_stats"
+        }
+      }
+    },
+    "emotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "trigger",
+        "appraisal",
+        "response",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^E[0-9]{2}$"
+        },
+        "trigger": {
+          "type": "string",
+          "minLength": 2
+        },
+        "appraisal": {
+          "type": "string",
+          "minLength": 2
+        },
+        "response": {
+          "type": "string",
+          "minLength": 2
+        },
+        "intensity": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string"
+        },
+        "recovery": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "prior",
+            "weak",
+            "supported",
+            "contradicted"
+          ]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "effects": {
+          "$ref": "#/definitions/emotion_effects"
+        },
+        "note": {
+          "type": "string"
+        },
+        "requires_verification": {
+          "type": "boolean"
+        },
+        "evidence_stats": {
+          "$ref": "#/definitions/evidence_stats"
+        }
+      }
+    },
+    "emotion_effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "processing": {
+          "$ref": "#/definitions/effect"
+        },
+        "attention": {
+          "$ref": "#/definitions/effect"
+        },
+        "action": {
+          "$ref": "#/definitions/effect"
+        },
+        "goal": {
+          "$ref": "#/definitions/effect"
+        },
+        "recovery": {
+          "$ref": "#/definitions/effect"
+        },
+        "reflection": {
+          "$ref": "#/definitions/effect"
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "status"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 6
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "weak",
+            "none"
+          ]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "between",
+        "resolution"
+      ],
+      "properties": {
+        "between": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2
+        },
+        "resolution": {
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "issue",
+        "resolution_evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^U[0-9]{2}$"
+        },
+        "issue": {
+          "type": "string",
+          "minLength": 4
+        },
+        "resolution_evidence": {
+          "type": "string",
+          "minLength": 4
+        }
+      }
+    },
+    "evidence_stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supports",
+        "limits",
+        "contradicts",
+        "context",
+        "scenes",
+        "scenes_core"
+      ],
+      "properties": {
+        "supports": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "contradicts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "context": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scenes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scenes_core": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

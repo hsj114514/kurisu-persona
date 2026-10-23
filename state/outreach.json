@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "quiet_hours": [
+    "22:00",
+    "09:00"
+  ],
+  "daily_cap": 1,
+  "rolling_24h_cap": 1,
+  "cooldown_hours": 6,
+  "task_ttl_hours": 24,
+  "stop_after_unanswered": true,
+  "max_attempts": 2,
+  "lease_minutes": 30,
+  "channel": "local"
+}

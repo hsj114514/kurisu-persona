@@ -1,0 +1,7 @@
+{
+  "_note": "示例：只授权长期记忆，不授权敏感内容、主动联系与作息学习。实际使用时应由宿主按联系人记录，不要手改生产文件。",
+  "remember": true,
+  "sensitive": false,
+  "proactive": false,
+  "schedule": false
+}

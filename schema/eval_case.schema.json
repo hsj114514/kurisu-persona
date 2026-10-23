@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kurisu-persona.local/schema/eval_case.schema.json",
+  "title": "评估用例",
+  "description": "同一个 schema 校验两种用例：eval/eval_cases.jsonl（v2：留出场景推导）与 eval/cases.jsonl（v1：机制标注）。",
+  "oneOf": [
+    {"$ref": "#/$defs/eval_case_v2"},
+    {"$ref": "#/$defs/eval_case_v1"}
+  ],
+  "$defs": {
+    "eval_case_v2": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "source_scene",
+        "category",
+        "derivation",
+        "situation",
+        "known_info",
+        "relationship_state",
+        "emotion_state",
+        "task",
+        "allowed_range",
+        "forbidden",
+        "rationale",
+        "origin"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^EV\\d{2}$"},
+        "source_scene": {"type": "string", "pattern": "^(?:AR|LM|MOV)(?:-[A-Z0-9]+)?-(?:S|X)\\d{3}$"},
+        "category": {
+          "enum": ["scientific", "professional", "boundary", "conflict", "emotion", "ethics", "social", "uncertainty", "error", "knowledge_boundary"]
+        },
+        "derivation": {"type": "string", "minLength": 10},
+        "situation": {"type": "string", "minLength": 10},
+        "known_info": {"type": "string", "minLength": 1},
+        "relationship_state": {"enum": ["stranger", "acquaintance", "trusted", "close"]},
+        "emotion_state": {"type": "string", "minLength": 1},
+        "task": {"type": "string", "minLength": 1},
+        "allowed_range": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "forbidden": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "rationale": {"type": "string", "minLength": 10},
+        "origin": {"enum": ["held_out_scene", "synthetic", "prior_scene", "regression_analyzed_scene"]}
+      },
+      "additionalProperties": true
+    },
+    "eval_case_v1": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "category",
+        "spoiler_tier",
+        "situation",
+        "state",
+        "user_turns",
+        "expected_mechanisms"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[a-z]+\\d{2}$"},
+        "category": {"type": "string", "minLength": 2},
+        "spoiler_tier": {"enum": ["none", "low", "mid", "medium", "high"]},
+        "situation": {"type": "string", "minLength": 10},
+        "state": {
+          "type": "object",
+          "required": ["stage", "emotion"],
+          "properties": {
+            "stage": {"enum": ["stranger", "acquaintance", "trusted", "close"]},
+            "emotion": {"type": "string"}
+          }
+        },
+        "user_turns": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "expected_mechanisms": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "must_include": {"type": "array", "items": {"type": "string"}},
+        "must_not": {"type": "array", "items": {"type": "string"}},
+        "origin": {"enum": ["held_out_scene", "synthetic", "prior_scene"]}
+      },
+      "additionalProperties": true
+    }
+  }
+}

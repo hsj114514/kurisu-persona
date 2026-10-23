@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kurisu-persona.local/schema/evidence.schema.json",
+  "title": "人格证据记录 v2",
+  "description": "对应 data/evidence_database.jsonl。v2 用稳定 UID（AR-V1-S001）与 review_status；引文由 lint_evidence_v2.py 逐字回查。",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "scene_id",
+    "legacy_scene_id",
+    "work",
+    "volume",
+    "chapter",
+    "source_location",
+    "speaker",
+    "evidence_type",
+    "original_quote",
+    "observable_behavior",
+    "candidate_mechanism",
+    "evidence_role",
+    "interpretation",
+    "alternative_explanation",
+    "confidence",
+    "review_status"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^(?:AR|LM|MOV)(?:-[A-Z0-9]+)?-S\\d{3}\\.\\d{3}$"
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^(?:AR|LM|MOV)(?:-[A-Z0-9]+)?-(?:S|X)\\d{3}$"
+    },
+    "legacy_scene_id": {
+      "type": "string",
+      "pattern": "^(?:assistant_perspective|movie_novel|linear_bounded)/c\\d{2}/s\\d{2}$"
+    },
+    "work": {
+      "enum": ["assistant_perspective", "movie_novel", "linear_bounded"]
+    },
+    "volume": {
+      "enum": ["V1", "V2", "V3", "UP", "DOWN", "MAIN"]
+    },
+    "chapter": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16
+    },
+    "source_location": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 200
+    },
+    "speaker": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20
+    },
+    "evidence_type": {
+      "enum": ["inner_thought", "dialogue", "action", "decision", "narrator", "other_evaluation"]
+    },
+    "original_quote": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 60
+    },
+    "observable_behavior": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 300
+    },
+    "candidate_mechanism": {
+      "type": "string",
+      "pattern": "^(?:T|C|V|E|S|L|PI|PB|SI)\\d{2}$"
+    },
+    "evidence_role": {
+      "enum": ["supports", "contradicts", "limits", "context", "neutral"]
+    },
+    "interpretation": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 800
+    },
+    "alternative_explanation": {
+      "type": "array",
+      "items": {"type": "string", "maxLength": 300}
+    },
+    "confidence": {
+      "enum": ["high", "medium", "low"]
+    },
+    "review_status": {
+      "enum": ["verified", "pending", "rejected"]
+    }
+  },
+  "additionalProperties": true
+}
